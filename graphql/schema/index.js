@@ -1,27 +1,20 @@
 const { buildSchema } = require('graphql');
 
+const Event = require('../../models/event');
+
 module.exports = buildSchema(`
-type Person {
-    _id: ID!
-    Name: String!
-    Age: Int!
-}
+    ${Event._query.typeEvent}
 
-input inputPerson {
-    Name:String!
-    Age:Int!
-}
+    type rootQuery {
+        ${Event._query.get.events}
+    }
 
-type rootQuery {
-    getPerson : [Person!]
-}
+    type rootMutation {
+        ${Event._mutation.post.newEvent}
+    }
 
-type rootMutation {
-    postPerson(data: inputPerson): Person!
-}
-
-schema {
-    query : rootQuery
-    mutation : rootMutation
-}
+    schema {
+        query : rootQuery
+        mutation : rootMutation
+    }
 `)
