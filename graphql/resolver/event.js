@@ -4,7 +4,7 @@ const Date = require('../../helper/date');
 module.exports = {
     events: async () => {
         try {
-            const events = await Event.find();
+            const events = await Event.find().populate('creator');
             const eventArr = await events.map(event => {
                
                 return { 
@@ -28,7 +28,8 @@ module.exports = {
                 title: args.param.title,
                 description: args.param.description,
                 price: args.param.price,
-                date: Date.Format(args.param.date)
+                date: Date.Format(args.param.date),
+                creator: "5da33de1cc7c44239837298a"
             });
     
             const event = await model.save();

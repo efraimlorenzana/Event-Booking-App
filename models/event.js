@@ -17,6 +17,10 @@ const Event = MonggoDB.model(Name, new MonggoDB.Schema({
     date: {
         type: Date,
         required: true
+    },
+    creator: {
+        type: MonggoDB.Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, { timestamps : true }));
 
@@ -29,6 +33,7 @@ const typeEvent = `
         date: String!
         createdAt: String
         updatedAt: String
+        creator: User!
     }
 
     input input${Name} {
