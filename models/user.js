@@ -10,6 +10,10 @@ const User = MonggoDB.model(Name, new MonggoDB.Schema({
         type: String,
         required: true
     },
+    account: {
+        type: MonggoDB.Schema.Types.ObjectId,
+        ref: 'Auth'
+    },
     createdEvents: [
         {
             type: MonggoDB.Schema.Types.ObjectId,
@@ -23,6 +27,7 @@ const typeUser = `
         _id: ID!
         firstname: String!
         lastname: String!
+        account: Auth!
         createdAt: String!
         updatedAt: String!
         createdEvents: [Event!]
