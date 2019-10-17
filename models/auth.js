@@ -16,6 +16,17 @@ const Auth = MonggoDB.model(Name, MonggoDB.Schema({
     }
 }, { timestamps: true }));
 
+const WebToken = MonggoDB.model('WebToken', MonggoDB.Schema({
+    token: {
+        type: String,
+        required: true
+    },
+    expire: {
+        type: Number,
+        required: true
+    }
+}));
+
 const typeAuth = `
     type ${Name} {
         _id: ID!
@@ -25,12 +36,17 @@ const typeAuth = `
         createdAt: String!
         updatedAt: String!
     }
+
+    type WebToken {
+        token: String!
+        expire: Int!
+    }
 `;
 
 const get = {
-    login: `login(email: String!, password: String!) : ${Name}!`
+    login: `login(email: String!, password: String!) : WebToken!`
 }
 
 const _query = { get, typeAuth };
 
-module.exports = { Auth, _query, _mutation };
+module.exports = { Auth, WebToken, _query, _mutation };
