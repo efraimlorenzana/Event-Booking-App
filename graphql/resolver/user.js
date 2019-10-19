@@ -5,7 +5,11 @@ const { findEvents, findAccount } = require('../../helper/fx');
 const bcrypt = require('bcrypt');
 
 module.exports = {
-    users: async () => {
+    users: async (args, req) => {
+        if(!req.isAuth) {
+            throw new Error("Please login!");
+        }
+
         try {
             const users = await User.find().populate('account');
             const userArr = await users.map(user => {
@@ -27,6 +31,7 @@ module.exports = {
     },
     createUser: async (args) => {
         let credential = null;
+
         try {
             const model = new User({
                 firstname: args.param.firstname,

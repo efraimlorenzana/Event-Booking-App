@@ -25,8 +25,10 @@ module.exports = {
         }
 
     },
-    newEvent: async (args) => {
-        const creator = "5da3e26e2372962964f79234";
+    newEvent: async (args, req) => {
+        if(!req.isAuth) {
+            throw new Error("Please login!");
+        }
 
         try {
             const model = new Event({
@@ -34,12 +36,12 @@ module.exports = {
                 description: args.param.description,
                 price: args.param.price,
                 date: Date.Format(args.param.date),
-                creator: creator
+                creator: req.userId
             });
     
             const event = await model.save();
 
-            const userCreator = await User.findById(creator);
+            const userCreator = await User.findById(req.userId);
 
             if(userCreator) {
                 userCreator.createdEvents.push(event);
@@ -50,7 +52,8 @@ module.exports = {
                 ...event._doc,
                 date: Date.Format(event._doc.date),
                 createdAt: Date.Format(event._doc.createdAt),
-                updatedAt: Date.Format(event._doc.updatedAt)
+                updatedAt: Date.Format(event._doc.updatedAt),
+                creator: findUser.bind(this, req.userId)
              };
 
         } catch (error) {
