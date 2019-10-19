@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-
+const { verify } = require('../security/options');
 const publicKey = fs.readFileSync('./security/keys/public.key');
 
 module.exports = (req, res, next) => {
@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
 
     let decodeToken;
     try {
-        decodeToken = jwt.verify(getToken, publicKey,{ expiresIn: '1h'});
+        decodeToken = jwt.verify(getToken, publicKey, verify);
     } catch (error) {
         req.isAuth = false;
         return next();

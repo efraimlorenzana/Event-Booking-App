@@ -2,13 +2,13 @@ const { Auth, WebToken } = require('../../models/auth');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-
+const { signing } = require('../../security/options');
 const privateKey = fs.readFileSync('./security/keys/private.key');
 
 module.exports = {
     login: async ({ email, password }) => {
         try {
-            const user = await Auth.findOne({email});
+            const user = await Auth.findOne({ email });
 
             if(!user) {
                 throw new Error("Email not found");
@@ -20,7 +20,7 @@ module.exports = {
                 throw new Error("Password not match");
             }
 
-            const token = jwt.sign({ userId: user.user }, privateKey, { expiresIn: '1h' });
+            const token = jwt.sign({ userId: user.user }, privateKey, signing);
             
             const wt = new WebToken({
                 token: token,
