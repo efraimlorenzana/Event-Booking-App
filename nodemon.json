@@ -3,6 +3,6 @@
         "MONGGO_USERNAME" : "devUser",
         "MONGGO_PASSWORD" : "IcwwOEMn9CkPTPsF",
         "MONGGO_DB" : "event_booking_db",
-        "PORT" : 3000
+        "PORT" : 8000
     }
 }

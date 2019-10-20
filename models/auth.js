@@ -24,6 +24,10 @@ const WebToken = MonggoDB.model('WebToken', MonggoDB.Schema({
     expire: {
         type: Number,
         required: true
+    },
+    user: {
+        type: MonggoDB.Schema.Types.ObjectId,
+        ref: 'User'
     }
 }));
 
@@ -40,6 +44,7 @@ const typeAuth = `
     type WebToken {
         token: String!
         expire: Int!
+        user: User!
     }
 `;
 
