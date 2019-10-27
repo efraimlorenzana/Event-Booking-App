@@ -4,9 +4,13 @@ const Date = require('../../helper/date');
 const { findUser } = require('../../helper/fx');
 
 module.exports = {
-    events: async () => {
+    events: async (args, req) => {
+        if(!req.isAuth) {
+            throw new Error("Please login!");
+        }
+
         try {
-            const events = await Event.find().populate('creator');
+            const events = await Event.find({ creator: req.userId }).populate('creator');
             const eventArr = await events.map(event => {
                
                 return { 
@@ -14,7 +18,7 @@ module.exports = {
                     date: Date.Format(event._doc.date),
                     createdAt: Date.Format(event._doc.createdAt),
                     updatedAt: Date.Format(event._doc.updatedAt),
-                    creator: findUser.bind(this, event._doc.creator.id)
+                    creator: findUser.bind(this, event.creator)
                  };
             });
             
