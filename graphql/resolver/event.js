@@ -11,6 +11,7 @@ module.exports = {
 
         try {
             const events = await Event.find({ creator: req.userId }).populate('creator');
+            
             const eventArr = await events.map(event => {
                
                 return { 

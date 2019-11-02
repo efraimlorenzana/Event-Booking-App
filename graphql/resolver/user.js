@@ -39,6 +39,11 @@ module.exports = {
                 account: credential
             });
 
+            const account = await Auth.findOne({email: args.param.email});
+
+            if(account)
+                throw new Error("Email address already in use");
+
             const user = await model.save();
 
             const hashPassword = await bcrypt.hash(args.param.password, 12);
